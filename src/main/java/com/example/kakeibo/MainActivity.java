@@ -1,18 +1,15 @@
 package com.example.kakeibo;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.example.dentaku.Calculator;
+import com.example.dentaku.Kakeibo;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -53,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-        Intent intent = new Intent(getApplicationContext(), com.example.dentaku.MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), Kakeibo.class);
         intent.putExtra("date", mCalendarAdapter.getItem(position).toString());
         startActivity(intent);
     }

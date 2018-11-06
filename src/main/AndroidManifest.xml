@@ -9,16 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.kakeibo.MainActivity">
+        <activity android:name="com.example.kakeibo.MainActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity android:name="com.example.dentaku.MainActivity"></activity>
-        <activity android:name="com.example.database.MainActivity"></activity>
-        <!--<activity android:name="com.example.database.TestOpenHelper"></activity>-->
+
+        <activity android:name="com.example.dentaku.Kakeibo"></activity>
+        <activity android:name="com.example.database.Database"></activity>
+        <activity android:name="com.example.database.ShowDataBase"></activity>
+        <activity android:name="com.example.memo.Memo"></activity>
+        <activity android:name="com.example.shifto.shifto"></activity>
     </application>
 
 </manifest>
