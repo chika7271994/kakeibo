@@ -18,6 +18,8 @@
         </activity>
         <activity android:name=".activities.KakeiboListActivity">
         </activity>
+        <activity android:name=".database.Database">
+        </activity>
     </application>
 
 </manifest>

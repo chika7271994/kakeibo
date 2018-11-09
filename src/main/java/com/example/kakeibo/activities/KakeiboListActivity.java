@@ -17,7 +17,7 @@ public class KakeiboListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.memo_index);
+        setContentView(R.layout.show_kakeibo);
 
         Intent intent = getIntent();
         currentDate = intent.getStringExtra("date");
@@ -32,7 +32,7 @@ public class KakeiboListActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.memo_index_re, fragment, bbb)
+                .add(R.id.show_kakeibo_pg, fragment, bbb)
                 .disallowAddToBackStack()
                 .commit();
     }
@@ -43,7 +43,7 @@ public class KakeiboListActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.memo_index_re, fragment, bbb)
+                .replace(R.id.show_kakeibo_pg, fragment, bbb)
                 .commit();
     }
 }

@@ -64,10 +64,6 @@ public class CalendarAdapter extends BaseAdapter {
         SimpleDateFormat dateFormat = new SimpleDateFormat("d", Locale.US);
         holder.dateText.setText(dateFormat.format(dateArray.get(position)));
 
-        //メモを表示
-        //String memo = //SQLからメモを取得
-        //holder.memo.setText(memo);
-
         //当月以外のセルをグレーアウト
         if (dataManager.isCurrentMonth(dateArray.get(position))){
             convertView.setBackgroundColor(Color.WHITE);
