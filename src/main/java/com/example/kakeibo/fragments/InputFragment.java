@@ -7,10 +7,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kakeibo.R;
 import com.example.kakeibo.database.Database;
+import com.example.kakeibo.utils.LogUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,15 +26,18 @@ public class InputFragment extends BaseFragment {
         return new InputFragment();
     }
 
-    @BindView(R.id.input)
+    @BindView(R.id.textView1)
     TextView mInput;
 
     private Database database;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_input, container, false);
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.memo_index, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -46,22 +51,23 @@ public class InputFragment extends BaseFragment {
     }
 
     private void addDummyData() {
-
-        database.addEntry("食べ物", 200);
+        /*View v = getLayoutInflater().inflate(R.layout.syuusi_page,null);
+        EditText category = ButterKnife.findById(v, R.id.editText1);
+        EditText price = ButterKnife.findById(v, R.id.editText2);
+        String cate = category.getText().toString();
+        String pri = price.getText().toString();
+        int i = Integer.parseInt(pri);*/
+        database.addEntry("?",'?' );
     }
 
-    @OnClick(R.id.show)
+    @OnClick(R.id.show_data)
     void onShowClick() {
         Cursor cursor = database.retrieveAllEntries();
         StringBuilder text = new StringBuilder();
         if (cursor.moveToFirst()) {
             do {
                 text.append(cursor.getString(1) + " ");
-                text.append(cursor.getString(2) + " ");
-                text.append(cursor.getInt(3) + "\n");
-                text.append(cursor.getString(4) + " ");
-                text.append(cursor.getString(5) + " ");
-                text.append(cursor.getString(6) + "\n");
+                text.append(cursor.getInt(2) + "\n");
             } while (cursor.moveToNext());
         }
 
