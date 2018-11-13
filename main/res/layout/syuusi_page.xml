@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/syuusi_pg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/syuusi_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="収支ページ"/>
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"/>
+
+        <Button
+            android:id="@+id/syuusi_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Input"/>
+
+        <TextView
+            android:id="@+id/textSyuusi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"/>
+
+        <Button
+            android:id="@+id/syuusi_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:text="戻る"/>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
