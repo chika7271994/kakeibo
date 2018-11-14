@@ -43,7 +43,7 @@ public class KakeiboFragment extends BaseFragment {
         if (activity == null){
             return;
         }
-        //MemoFragmentを表示
+        //SyuusiFragmentを表示
         activity.replaceFragment(SyuusiFragment.newInstance());
     }
 }

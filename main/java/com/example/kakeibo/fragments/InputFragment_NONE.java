@@ -1,6 +1,5 @@
 package com.example.kakeibo.fragments;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,8 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kakeibo.R;
-import com.example.kakeibo.activities.CalendarActivity;
-import com.example.kakeibo.activities.KakeiboListActivity;
 import com.example.kakeibo.database.Database;
 import com.example.kakeibo.utils.LogUtil;
 
@@ -21,31 +18,22 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-//InputFragmentとする
+public class InputFragment_NONE extends BaseFragment {
 
-public class SyuusiFragment extends BaseFragment {
-    private static final String TAG = SyuusiFragment.class.getSimpleName();
+    private static final String TAG = InputFragment_NONE.class.getSimpleName();
 
-    public static SyuusiFragment newInstance() { return  new  SyuusiFragment(); }
+    public static InputFragment_NONE newInstance() {
+        return new InputFragment_NONE();
+    }
 
+    @BindView(R.id.textSyuusi)
+    TextView mInput;
     @BindView(R.id.editText1)
     EditText editText1;
     @BindView(R.id.editText2)
     EditText editText2;
-    @BindView(R.id.textSyuusi)
-    TextView textView;
 
     private Database database;
-    private String currentDate;
-    private CalendarActivity activity;
-    Bundle bundle;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Intent intent = activity.getIntent();
-        currentDate = intent.getStringExtra("monday");
-    }
 
     @Nullable
     @Override
@@ -58,16 +46,15 @@ public class SyuusiFragment extends BaseFragment {
         return view;
     }
 
-    @OnClick(R.id.syuusi_input)
-    void onClick() {
-            LogUtil.debug(TAG, "onActivityCreated");
-            database = Database.getInstance(getActivity());
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        LogUtil.debug(TAG, "onActivityCreated");
+        database = Database.getInstance(getActivity());
+        addDummyData();
+    }
 
-            addData();
-        }
-
-
-    private void addData(){
+    private void addDummyData() {
         String category = editText1.getText().toString();
         String price = editText2.getText().toString();
         int i = 0;
@@ -79,19 +66,17 @@ public class SyuusiFragment extends BaseFragment {
         database.addEntry(category,i);
     }
 
-    @OnClick(R.id.syuusi_show)
-    void onAddClick() {
+    @OnClick(R.id.syuusi_input)
+    void onShowClick() {
         Cursor cursor = database.retrieveAllEntries();
-        StringBuilder builder = new StringBuilder();
-        if(cursor.moveToFirst()){
+        StringBuilder text = new StringBuilder();
+        if (cursor.moveToFirst()) {
             do {
-                builder.append(cursor.getString(1) + " ");
-                builder.append(cursor.getInt(2) + "\n");
-            }while (cursor.moveToNext());
+                text.append(cursor.getString(1) + " ");
+                text.append(cursor.getInt(2) + "\n");
+            } while (cursor.moveToNext());
         }
-        cursor.close();
-        textView.setText(builder.toString());
+
+        mInput.setText(text);
     }
-
-
 }

@@ -10,6 +10,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.kakeibo.R;
+import com.example.kakeibo.fragments.SyuusiFragment;
 
 public class CalendarActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -52,8 +53,12 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+        Bundle bundle = new Bundle();
+        bundle.putString("day", mCalendarAdapter.getItem(position).toString());
+        Intent intentF = new Intent(getApplicationContext(), SyuusiFragment.class);
         Intent intent = new Intent(getApplicationContext(), KakeiboListActivity.class);
         intent.putExtra("date", mCalendarAdapter.getItem(position).toString());
+        intentF.putExtra(bundle);
         startActivity(intent);
     }
 }

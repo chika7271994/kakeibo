@@ -26,38 +26,30 @@ public class TestOpenHelper extends SQLiteOpenHelper {
     //テーブル作成
     private static final String SQL_CREATE_ENTRIES = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
             " (" +
-                    _ID + " INTEGER PRIMARY KEY," +
-                    COLUMN_CATEGORY + " TEXT, " +
-                    COLUMN_PRICE    + " INTEGER " +
-            ")";
+                    _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    COLUMN_CATEGORY + " TEXT NOT NULL, " +
+                    COLUMN_PRICE    + " INTEGER NOT NULL)";
 
-    private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + TABLE_NAME;
+    /*private static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS " + TABLE_NAME;*/
 
 
-    TestOpenHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    TestOpenHelper(Context context) { super(context, DATABASE_NAME, null, DATABASE_VERSION); }
 
-    }
-
+    // テーブル作成
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        // テーブル作成
-        db.execSQL(
-                SQL_CREATE_ENTRIES
-        );
-    }
+    public void onCreate(SQLiteDatabase db) { db.execSQL(SQL_CREATE_ENTRIES); }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // アップデートの判別
-        db.execSQL(
-                SQL_DELETE_ENTRIES
-        );
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+
+        //アップデートしたテーブルを作成
         onCreate(db);
     }
 
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    /*public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
-    }
+    }*/
 }
