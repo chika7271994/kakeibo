@@ -23,6 +23,14 @@ public class KakeiboFragment extends BaseFragment {
         return new KakeiboFragment();
     }
 
+    private String day;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(
@@ -31,6 +39,14 @@ public class KakeiboFragment extends BaseFragment {
             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.memo_index, container, false);
         ButterKnife.bind(this, view);
+        //値を受け取る
+        //dataの中身がnullになる
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            day = bundle.getString("data");
+        }else {
+            LogUtil.debug("onCreate:KakeiboFragment", "dataの中身は" + day);
+        }
         return view;
     }
 

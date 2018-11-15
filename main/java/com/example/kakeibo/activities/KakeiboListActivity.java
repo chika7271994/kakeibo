@@ -30,10 +30,10 @@ public class KakeiboListActivity extends AppCompatActivity {
         textView = findViewById(R.id.kakeibo_text);
         textView.setText(currentDate);
 
-        //SyuusiFragmentに値渡し
+        //Fragmentに値渡し
         Bundle bundle = new Bundle();
         bundle.putString("data", currentDate);
-        SyuusiFragment fragment = new SyuusiFragment();
+        KakeiboFragment fragment = new KakeiboFragment();
         //FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         fragment.setArguments(bundle);
 
