@@ -1,6 +1,5 @@
 package com.example.kakeibo.fragments;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,8 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kakeibo.R;
-import com.example.kakeibo.activities.CalendarActivity;
-import com.example.kakeibo.activities.KakeiboListActivity;
 import com.example.kakeibo.database.Database;
 import com.example.kakeibo.utils.LogUtil;
 
@@ -24,6 +21,7 @@ import butterknife.OnClick;
 //InputFragmentとする
 
 public class SyuusiFragment extends BaseFragment {
+
     private static final String TAG = SyuusiFragment.class.getSimpleName();
 
     public static SyuusiFragment newInstance() { return  new  SyuusiFragment(); }
@@ -34,17 +32,28 @@ public class SyuusiFragment extends BaseFragment {
     EditText editText2;
     @BindView(R.id.textSyuusi)
     TextView textView;
+    @BindView(R.id.syuusi_text)
+    TextView textView2;
 
     private Database database;
-    private String currentDate;
-    private CalendarActivity activity;
-    Bundle bundle;
+    private String day;
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = activity.getIntent();
-        currentDate = intent.getStringExtra("monday");
+        //値を受け取る
+        //dataの中身がnullになる
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            day = bundle.getString("data");
+        }else {
+            LogUtil.debug("onCreate", "dataの中身は" + day);
+        }
     }
 
     @Nullable
@@ -55,6 +64,7 @@ public class SyuusiFragment extends BaseFragment {
             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.syuusi_page, container, false);
         ButterKnife.bind(this, view);
+        textView2.setText(day);
         return view;
     }
 
@@ -62,7 +72,6 @@ public class SyuusiFragment extends BaseFragment {
     void onClick() {
             LogUtil.debug(TAG, "onActivityCreated");
             database = Database.getInstance(getActivity());
-
             addData();
         }
 
@@ -92,6 +101,4 @@ public class SyuusiFragment extends BaseFragment {
         cursor.close();
         textView.setText(builder.toString());
     }
-
-
 }

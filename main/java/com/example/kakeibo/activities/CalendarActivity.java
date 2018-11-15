@@ -53,12 +53,9 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Bundle bundle = new Bundle();
-        bundle.putString("day", mCalendarAdapter.getItem(position).toString());
-        Intent intentF = new Intent(getApplicationContext(), SyuusiFragment.class);
+        //KakeiboListActivityに送る日付データ
         Intent intent = new Intent(getApplicationContext(), KakeiboListActivity.class);
         intent.putExtra("date", mCalendarAdapter.getItem(position).toString());
-        intentF.putExtra(bundle);
         startActivity(intent);
     }
 }

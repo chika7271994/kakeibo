@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.kakeibo.R;
+import com.example.kakeibo.activities.CalendarAdapter;
 import com.example.kakeibo.activities.KakeiboListActivity;
+import com.example.kakeibo.utils.LogUtil;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,11 +41,6 @@ public class KakeiboFragment extends BaseFragment {
 
     @OnClick(R.id.syuusi)
     void btnSyuusiClick(){
-        final KakeiboListActivity activity = obtainKakeiboListActivity();
-        if (activity == null){
-            return;
-        }
-        //SyuusiFragmentを表示
-        activity.replaceFragment(SyuusiFragment.newInstance());
+        navigateToFragment(SyuusiFragment.newInstance());
     }
 }
