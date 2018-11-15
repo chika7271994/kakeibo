@@ -24,7 +24,14 @@ public class SyuusiFragment extends BaseFragment {
 
     private static final String TAG = SyuusiFragment.class.getSimpleName();
 
-    public static SyuusiFragment newInstance() { return  new  SyuusiFragment(); }
+    public static SyuusiFragment newInstance(String day) {
+        SyuusiFragment fragment = new SyuusiFragment();
+        //値を受け取る
+        Bundle bundle = new Bundle();
+        bundle.putString("data", day);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @BindView(R.id.editText1)
     EditText editText1;
@@ -36,24 +43,18 @@ public class SyuusiFragment extends BaseFragment {
     TextView textView2;
 
     private Database database;
-    private String day;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
+        Bundle bundle = getArguments();
+        String day = bundle.getString("data");
+        LogUtil.debug("SyuusiFragment", "日付は"+ day);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //値を受け取る
-        //dataの中身がnullになる
-        Bundle bundle = getArguments();
-        if (bundle != null){
-            day = bundle.getString("data");
-        }else {
-            LogUtil.debug("onCreate", "dataの中身は" + day);
-        }
     }
 
     @Nullable
@@ -64,7 +65,6 @@ public class SyuusiFragment extends BaseFragment {
             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.syuusi_page, container, false);
         ButterKnife.bind(this, view);
-        textView2.setText(day);
         return view;
     }
 

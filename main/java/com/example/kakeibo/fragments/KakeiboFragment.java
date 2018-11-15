@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.kakeibo.R;
-import com.example.kakeibo.activities.CalendarAdapter;
-import com.example.kakeibo.activities.KakeiboListActivity;
 import com.example.kakeibo.utils.LogUtil;
 
 import butterknife.ButterKnife;
@@ -19,16 +17,18 @@ import butterknife.OnClick;
 
 public class KakeiboFragment extends BaseFragment {
 
-    public static KakeiboFragment newInstance() {
-        return new KakeiboFragment();
+    public static KakeiboFragment newInstance(String currentDate) {
+        KakeiboFragment fragment = new KakeiboFragment();
+        //値を受け取る
+        Bundle bundle = new Bundle();
+        bundle.putString("data", currentDate);
+        fragment.setArguments(bundle);
+        return fragment;
     }
-
-    private String day;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Nullable
@@ -39,14 +39,7 @@ public class KakeiboFragment extends BaseFragment {
             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.memo_index, container, false);
         ButterKnife.bind(this, view);
-        //値を受け取る
-        //dataの中身がnullになる
-        Bundle bundle = getArguments();
-        if (bundle != null){
-            day = bundle.getString("data");
-        }else {
-            LogUtil.debug("onCreate:KakeiboFragment", "dataの中身は" + day);
-        }
+
         return view;
     }
 
@@ -57,6 +50,9 @@ public class KakeiboFragment extends BaseFragment {
 
     @OnClick(R.id.syuusi)
     void btnSyuusiClick(){
-        navigateToFragment(SyuusiFragment.newInstance());
+        Bundle bundle = getArguments();
+        String day = bundle.getString("data");
+        LogUtil.debug("KakeiboFragment", "日付は"+ day);
+        navigateToFragment(SyuusiFragment.newInstance(day));
     }
 }
