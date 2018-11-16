@@ -14,6 +14,10 @@ import com.example.kakeibo.R;
 import com.example.kakeibo.database.Database;
 import com.example.kakeibo.utils.LogUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -43,13 +47,13 @@ public class SyuusiFragment extends BaseFragment {
     TextView textView2;
 
     private Database database;
+    private String day;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
-        String day = bundle.getString("data");
-        LogUtil.debug("SyuusiFragment", "日付は"+ day);
+        day = bundle.getString("data");
     }
 
     @Override
@@ -79,26 +83,26 @@ public class SyuusiFragment extends BaseFragment {
     private void addData(){
         String category = editText1.getText().toString();
         String price = editText2.getText().toString();
-        int i = 0;
-        try{
-            i = Integer.valueOf(price);
-        }catch (Exception e){
-            LogUtil.debug("addData", "price の中身は" + price);
-        }
-        database.addEntry(category,i);
+        //final String data = new SimpleDateFormat("MM月dd日", Locale.getDefault()).format(new Date(day));
+        int i = Integer.valueOf(price);
+        LogUtil.debug("addData", "categoryは" + category);
+        LogUtil.debug("addData", "priceは" + price);
+        LogUtil.debug("addData", "日付は"+ day);
+        database.addEntry(category, i, day);
     }
 
     @OnClick(R.id.syuusi_show)
     void onAddClick() {
-        Cursor cursor = database.retrieveAllEntries();
+        Cursor cursor = database.retrieveByDate(day);
         StringBuilder builder = new StringBuilder();
-        if(cursor.moveToFirst()){
-            do {
-                builder.append(cursor.getString(1) + " ");
-                builder.append(cursor.getInt(2) + "\n");
-            }while (cursor.moveToNext());
+        if(cursor.moveToFirst()) {
+           // if (day.equals(cursor.getString(3))) {
+                do {
+                    builder.append(cursor.getString(1) + " ");
+                    builder.append(cursor.getInt(2) + "\n");
+                } while (cursor.moveToNext());
+          //  }
         }
-        cursor.close();
         textView.setText(builder.toString());
     }
 }

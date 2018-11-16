@@ -1,15 +1,23 @@
 package com.example.kakeibo.fragments;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.kakeibo.R;
+import com.example.kakeibo.database.Database;
 import com.example.kakeibo.utils.LogUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -26,6 +34,15 @@ public class KakeiboFragment extends BaseFragment {
         return fragment;
     }
 
+    @BindView(R.id.memo_index_day)
+    TextView textDay;
+    @BindView(R.id.memo_index_te)
+    TextView textView;
+
+    private Database database;
+    private String day;
+    private String data;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,20 +56,34 @@ public class KakeiboFragment extends BaseFragment {
             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.memo_index, container, false);
         ButterKnife.bind(this, view);
-
         return view;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState){
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Bundle bundle = getArguments();
+        day = bundle.getString("data");
+        data = new SimpleDateFormat("MM/dd", Locale.getDefault()).format(new Date(day));
+        textDay.setText(data);
+        LogUtil.debug("KakeiboFragment", "日付は"+ data);
+
+        database = Database.getInstance(getActivity());
+        Cursor cursor = database.retrieveAllEntries();
+        StringBuilder text = new StringBuilder();
+        if (cursor.moveToFirst()) {
+            //if (day.equals(cursor.getString(3))) {
+                do {
+                    text.append(cursor.getString(1) + " ");
+                    text.append(cursor.getInt(2) + "\n");
+                } while (cursor.moveToNext());
+            //}
+        }
+        textView.setText(text);
     }
 
     @OnClick(R.id.syuusi)
     void btnSyuusiClick(){
-        Bundle bundle = getArguments();
-        String day = bundle.getString("data");
-        LogUtil.debug("KakeiboFragment", "日付は"+ day);
-        navigateToFragment(SyuusiFragment.newInstance(day));
+        navigateToFragment(SyuusiFragment.newInstance(data));
     }
 }

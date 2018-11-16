@@ -25,15 +25,22 @@ public class Database {
         db = helper.getWritableDatabase();
     }
 
-    public boolean addEntry(String category, int price){
+    public boolean addEntry(String category, int price, String day){
         final ContentValues values = new ContentValues();
         values.put(TestOpenHelper.COLUMN_CATEGORY, category);
-        values.put(TestOpenHelper.COLUMN_PRICE,price);
+        values.put(TestOpenHelper.COLUMN_PRICE, price);
+        values.put(TestOpenHelper.COLUMN_DAY, day);
         return db.insert(TestOpenHelper.TABLE_NAME, null, values) != -1;
     }
 
-    //データベースの読み込み
+    //データベースの読み込み:SyuusiFragment用
     public Cursor retrieveAllEntries() {
         return db.rawQuery("SELECT * FROM " + TestOpenHelper.TABLE_NAME, null);
     }
+
+    public Cursor retrieveByDate(String date) {
+        String sql = "select * from " +  TestOpenHelper.TABLE_NAME + " where " + TestOpenHelper.COLUMN_DAY + " = " + date;
+        return db.rawQuery(sql, null);
+    }
+
 }
