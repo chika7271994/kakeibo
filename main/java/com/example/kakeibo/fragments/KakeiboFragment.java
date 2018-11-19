@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.kakeibo.R;
-import com.example.kakeibo.database.Database;
+import com.example.kakeibo.database.DatabaseManager;
 import com.example.kakeibo.utils.LogUtil;
 
 import java.text.SimpleDateFormat;
@@ -39,7 +39,7 @@ public class KakeiboFragment extends BaseFragment {
     @BindView(R.id.memo_index_te)
     TextView textView;
 
-    private Database database; //データベースクラス
+    private DatabaseManager mDatabase; //データベースクラス
     private String day;        //日付
     private String data;       //日付表示形式変更後
 
@@ -64,13 +64,12 @@ public class KakeiboFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
         day = bundle.getString("data");
-        data = new SimpleDateFormat("MMdd", Locale.getDefault()).format(new Date(day));
-        String textdata = new SimpleDateFormat("MM月dd日", Locale.getDefault()).format(new Date(day));
-        textDay.setText(textdata);
+        data = new SimpleDateFormat("MM月dd日", Locale.getDefault()).format(new Date(day));
+        textDay.setText(data);
         LogUtil.debug("KakeiboFragment", "日付は"+ data);
 
-        database = Database.getInstance(getActivity());
-        Cursor cursor = database.retrieveByDate(data);
+        mDatabase = DatabaseManager.getInstance(getActivity());
+        Cursor cursor = mDatabase.retrieveByDate(data);
         StringBuilder text = new StringBuilder();
         if (cursor.moveToFirst()) {
             do {
@@ -82,14 +81,12 @@ public class KakeiboFragment extends BaseFragment {
     }
 
     //収支入力ページ移行
-    @OnClick(R.id.sifuto)
-    void btnSifutoClick(){
-        navigateToFragment(SifutoFragment.newInstance());
-    }
-
-    //収支入力ページ移行
     @OnClick(R.id.syuusi)
     void btnSyuusiClick(){
-        navigateToFragment(SyuusiFragment.newInstance(data));
+        navigateToFragment(SpendingFragment.newInstance(data));
     }
+
+    //メモページ移行
+    @OnClick(R.id.memo)
+    void btnMemoClick() { navigateToFragment(MemoFragment.newInstance(data)); }
 }

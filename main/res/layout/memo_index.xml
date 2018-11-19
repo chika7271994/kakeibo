@@ -1,64 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/memo_index_re">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/memo_index_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:textSize="20dp"/>
 
-    <TextView
-        android:id="@+id/memo_index_te"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/memo_index_day"
-        android:textSize="20dp"/>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/sifuto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/frame_style"
-        android:layout_alignParentBottom="true"
-        android:text="シフト" />
+        <TextView
+            android:id="@+id/memo_index_te"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_below="@+id/memo_index_day"
+            android:textSize="20dp"/>
 
-    <Button
-        android:id="@+id/syuusi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/frame_style"
-        android:layout_toRightOf="@+id/sifuto"
-        android:layout_alignParentBottom="true"
-        android:text="収支" />
+    </ScrollView>
 
-    <Button
-        android:id="@+id/memo"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/frame_style"
-        android:layout_toRightOf="@+id/syuusi"
-        android:layout_alignParentBottom="true"
-        android:text="メモ" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/show_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/frame_style"
-        android:layout_toRightOf="@+id/memo"
-        android:layout_alignParentBottom="true"
-        android:text="SHOW"/>
+        <Button
+            android:id="@+id/syuusi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:text="収支" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/memo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:text="メモ" />
+
+    </LinearLayout>
+</LinearLayout>

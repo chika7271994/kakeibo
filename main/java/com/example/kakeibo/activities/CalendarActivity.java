@@ -10,7 +10,6 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.kakeibo.R;
-import com.example.kakeibo.fragments.SyuusiFragment;
 
 public class CalendarActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
