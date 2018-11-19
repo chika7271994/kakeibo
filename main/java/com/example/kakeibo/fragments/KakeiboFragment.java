@@ -27,7 +27,7 @@ public class KakeiboFragment extends BaseFragment {
 
     public static KakeiboFragment newInstance(String currentDate) {
         KakeiboFragment fragment = new KakeiboFragment();
-        //値を受け取る
+        //日付の値を取得
         Bundle bundle = new Bundle();
         bundle.putString("data", currentDate);
         fragment.setArguments(bundle);
@@ -39,9 +39,9 @@ public class KakeiboFragment extends BaseFragment {
     @BindView(R.id.memo_index_te)
     TextView textView;
 
-    private Database database;
-    private String day;
-    private String data;
+    private Database database; //データベースクラス
+    private String day;        //日付
+    private String data;       //日付表示形式変更後
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,24 +64,30 @@ public class KakeiboFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
         day = bundle.getString("data");
-        data = new SimpleDateFormat("MM/dd", Locale.getDefault()).format(new Date(day));
-        textDay.setText(data);
+        data = new SimpleDateFormat("MMdd", Locale.getDefault()).format(new Date(day));
+        String textdata = new SimpleDateFormat("MM月dd日", Locale.getDefault()).format(new Date(day));
+        textDay.setText(textdata);
         LogUtil.debug("KakeiboFragment", "日付は"+ data);
 
         database = Database.getInstance(getActivity());
-        Cursor cursor = database.retrieveAllEntries();
+        Cursor cursor = database.retrieveByDate(data);
         StringBuilder text = new StringBuilder();
         if (cursor.moveToFirst()) {
-            //if (day.equals(cursor.getString(3))) {
-                do {
-                    text.append(cursor.getString(1) + " ");
-                    text.append(cursor.getInt(2) + "\n");
-                } while (cursor.moveToNext());
-            //}
+            do {
+                text.append(cursor.getString(1) + " ");
+                text.append(cursor.getInt(2) + "\n");
+            } while (cursor.moveToNext());
         }
         textView.setText(text);
     }
 
+    //収支入力ページ移行
+    @OnClick(R.id.sifuto)
+    void btnSifutoClick(){
+        navigateToFragment(SifutoFragment.newInstance());
+    }
+
+    //収支入力ページ移行
     @OnClick(R.id.syuusi)
     void btnSyuusiClick(){
         navigateToFragment(SyuusiFragment.newInstance(data));

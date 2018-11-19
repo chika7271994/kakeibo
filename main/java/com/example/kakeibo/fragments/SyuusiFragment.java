@@ -14,10 +14,6 @@ import com.example.kakeibo.R;
 import com.example.kakeibo.database.Database;
 import com.example.kakeibo.utils.LogUtil;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -46,12 +42,13 @@ public class SyuusiFragment extends BaseFragment {
     @BindView(R.id.syuusi_text)
     TextView textView2;
 
-    private Database database;
-    private String day;
+    private Database mDatabase; //データベースクラス
+    private String day;         //日付
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
+        //日付の値を取得
         Bundle bundle = getArguments();
         day = bundle.getString("data");
     }
@@ -67,6 +64,7 @@ public class SyuusiFragment extends BaseFragment {
             @NonNull LayoutInflater inflater,
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
+        //レイアウト作成
         View view = inflater.inflate(R.layout.syuusi_page, container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -75,7 +73,7 @@ public class SyuusiFragment extends BaseFragment {
     @OnClick(R.id.syuusi_input)
     void onClick() {
             LogUtil.debug(TAG, "onActivityCreated");
-            database = Database.getInstance(getActivity());
+            mDatabase = Database.getInstance(getActivity());
             addData();
         }
 
@@ -83,25 +81,24 @@ public class SyuusiFragment extends BaseFragment {
     private void addData(){
         String category = editText1.getText().toString();
         String price = editText2.getText().toString();
-        //final String data = new SimpleDateFormat("MM月dd日", Locale.getDefault()).format(new Date(day));
         int i = Integer.valueOf(price);
         LogUtil.debug("addData", "categoryは" + category);
         LogUtil.debug("addData", "priceは" + price);
         LogUtil.debug("addData", "日付は"+ day);
-        database.addEntry(category, i, day);
+        //データベースに書き込み
+        mDatabase.addEntry(category, i, day);
     }
 
+    //入力したデータベースの出力
     @OnClick(R.id.syuusi_show)
     void onAddClick() {
-        Cursor cursor = database.retrieveByDate(day);
+        Cursor cursor = mDatabase.retrieveByDate(day);
         StringBuilder builder = new StringBuilder();
         if(cursor.moveToFirst()) {
-           // if (day.equals(cursor.getString(3))) {
-                do {
-                    builder.append(cursor.getString(1) + " ");
-                    builder.append(cursor.getInt(2) + "\n");
-                } while (cursor.moveToNext());
-          //  }
+            do {
+                builder.append(cursor.getString(1) + " ");
+                builder.append(cursor.getInt(2) + "\n");
+            } while (cursor.moveToNext());
         }
         textView.setText(builder.toString());
     }

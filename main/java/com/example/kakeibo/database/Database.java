@@ -38,8 +38,9 @@ public class Database {
         return db.rawQuery("SELECT * FROM " + TestOpenHelper.TABLE_NAME, null);
     }
 
+    //データベースの読み込みKakeiboFragment用
     public Cursor retrieveByDate(String date) {
-        String sql = "select * from " +  TestOpenHelper.TABLE_NAME + " where " + TestOpenHelper.COLUMN_DAY + " = " + date;
+        String sql = "SELECT * FROM " +  TestOpenHelper.TABLE_NAME + " WHERE " + TestOpenHelper.COLUMN_DAY + " = " + date;
         return db.rawQuery(sql, null);
     }
 

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import org.w3c.dom.Text;
+
 import static java.sql.Types.INTEGER;
 
 public class TestOpenHelper extends SQLiteOpenHelper {
@@ -27,10 +29,11 @@ public class TestOpenHelper extends SQLiteOpenHelper {
     //テーブル作成
     private static final String SQL_CREATE_ENTRIES = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
             " (" +
-                    _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    COLUMN_CATEGORY + " TEXT NOT NULL, " +
-                    COLUMN_PRICE    + " INTEGER NOT NULL, " +
-                    COLUMN_DAY      + " TEXT NOT NULL )";
+            _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            COLUMN_CATEGORY + " TEXT NOT NULL, " +
+            COLUMN_PRICE    + " INTEGER NOT NULL, " +
+            COLUMN_DAY      + " TEXT" +
+            ")";
 
     TestOpenHelper(Context context) { super(context, DATABASE_NAME, null, DATABASE_VERSION); }
 
