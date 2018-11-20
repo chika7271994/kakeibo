@@ -38,6 +38,10 @@ public class KakeiboFragment extends BaseFragment {
     TextView textDay;
     @BindView(R.id.memo_index_te)
     TextView textView;
+    @BindView(R.id.memo_index_te2)
+    TextView textView2;
+    @BindView(R.id.memo_index_te3)
+    TextView textView3;
 
     private DatabaseManager mDatabase; //データベースクラス
     private String day;        //日付
@@ -69,6 +73,8 @@ public class KakeiboFragment extends BaseFragment {
         LogUtil.debug("KakeiboFragment", "日付は"+ data);
 
         mDatabase = DatabaseManager.getInstance(getActivity());
+
+        //支出データ呼び出し
         Cursor cursor = mDatabase.retrieveByDate(data);
         StringBuilder text = new StringBuilder();
         if (cursor.moveToFirst()) {
@@ -78,6 +84,27 @@ public class KakeiboFragment extends BaseFragment {
             } while (cursor.moveToNext());
         }
         textView.setText(text);
+
+        //収入データ呼び出し
+        Cursor iCursor = mDatabase.retrieveByDateI(data);
+        StringBuilder incomeText = new StringBuilder();
+        if (iCursor.moveToFirst()) {
+            do {
+                incomeText.append(iCursor.getString(1) + " ");
+                incomeText.append(iCursor.getInt(2) + "\n");
+            } while (iCursor.moveToNext());
+        }
+        textView2.setText(incomeText);
+
+        //メモデータ呼び出し
+        Cursor mCursor = mDatabase.retrieveByDateM(data);
+        StringBuilder memoText = new StringBuilder();
+        if (mCursor.moveToFirst()) {
+            do {
+                memoText.append(mCursor.getString(1) + " \n");
+            } while (mCursor.moveToNext());
+        }
+        textView3.setText(memoText);
     }
 
     //収支入力ページ移行

@@ -42,7 +42,7 @@ public class DatabaseManager {
         final ContentValues iValues = new ContentValues();
         iValues.put(DatabaseHelper.INCOME_CATEGORY, iCategory);
         iValues.put(DatabaseHelper.INCOME_PRICE, iPrice);
-        iValues.put(DatabaseHelper.SPENDING_DAY, iDay);
+        iValues.put(DatabaseHelper.INCOME_DAY, iDay);
         return db.insert(DatabaseHelper.INCOME_TABLE, null, iValues) != -1;
     }
 
@@ -75,7 +75,7 @@ public class DatabaseManager {
     }
 
     //収入日付毎のデータベースの読み込み
-    public Cursor retriexeByDateI(String date){
+    public Cursor retrieveByDateI(String date){
         String sql = " SELECT * FROM " + DatabaseHelper.INCOME_TABLE + " WHERE " + DatabaseHelper.INCOME_DAY + " = " + "'" + date + "'";
         return db.rawQuery(sql, null);
     }

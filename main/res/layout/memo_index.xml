@@ -14,13 +14,50 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/memo_index_te"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_below="@+id/memo_index_day"
-            android:textSize="20dp"/>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/index_spending_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支出"/>
+
+            <TextView
+                android:id="@+id/memo_index_te"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/index_income_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="収入"/>
+
+            <TextView
+                android:id="@+id/memo_index_te2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/index_memo_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="メモ"/>
+
+            <TextView
+                android:id="@+id/memo_index_te3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"/>
+
+        </LinearLayout>
 
     </ScrollView>
 

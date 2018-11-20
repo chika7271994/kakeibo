@@ -18,6 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+//収入ページ
+
 public class IncomeFragment extends BaseFragment {
 
     private static final String TAG = IncomeFragment.class.getSimpleName();
@@ -31,9 +33,11 @@ public class IncomeFragment extends BaseFragment {
         return fragment;
     }
 
-    @BindView(R.id.memo_Edittext)
-    EditText editText;
-    @BindView(R.id.textMemo)
+    @BindView(R.id.editText_i)
+    EditText editText1;
+    @BindView(R.id.editText_i2)
+    EditText editText2;
+    @BindView(R.id.textIncome)
     TextView textView;
 
     private DatabaseManager mDatabase; //データベースクラス
@@ -54,41 +58,48 @@ public class IncomeFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //レイアウト作成
-        View view = inflater.inflate(R.layout.memo_page, container, false);
+        View view = inflater.inflate(R.layout.income_page, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
 
-    @OnClick(R.id.memo_input)
+    @OnClick(R.id.income_input)
     void onClick() {
-            LogUtil.debug(TAG, "onActivityCreated");
-            mDatabase = DatabaseManager.getInstance(getActivity());
-            addMemo();
-        }
+        LogUtil.debug(TAG, "onActivityCreated");
+        mDatabase = DatabaseManager.getInstance(getActivity());
+        addIncome();
+    }
 
-    private void addMemo(){
-        String memo = editText.getText().toString();
-        LogUtil.debug("addMemo", "memoは" + memo);
-        LogUtil.debug("addMemo", "日付は" + day);
+    private void addIncome(){
         //データベースに書き込み
-        mDatabase.addMemo(memo, day);
+        String category = editText1.getText().toString();
+        String price = editText2.getText().toString();
+        int i = Integer.valueOf(price);
+        LogUtil.debug("addIncome", "categoryは" + category);
+        LogUtil.debug("addIncome", "priceは" + price);
+        LogUtil.debug("addIncome", "日付は"+ day);
+        mDatabase.addIncome(category, i, day);
     }
 
     //入力したデータベースの出力
-    @OnClick(R.id.memo_show)
+    @OnClick(R.id.income_show)
     void onAddClick() {
-        Cursor cursor = mDatabase.retrieveByDateM(day);
+        Cursor cursor = mDatabase.retrieveByDateI(day);
         StringBuilder builder = new StringBuilder();
         if(cursor.moveToFirst()) {
             do {
-                builder.append(cursor.getString(1) + "\n");
+                builder.append(cursor.getString(1) + " ");
+                builder.append(cursor.getString(2) + "\n");
             } while (cursor.moveToNext());
         }
         textView.setText(builder.toString());
+    }
+
+    //支出ページに戻る
+    @OnClick(R.id.income_back)
+    void btnBackClick(){
+        navigateToFragment(SpendingFragment.newInstance(day));
     }
 }
