@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.kakeibo.activities.DataManager;
+
 public class DatabaseManager {
 
     private static DatabaseManager databaseManager;
@@ -88,6 +90,12 @@ public class DatabaseManager {
     //メモ日付毎のデータベースの読み込み
     public Cursor retrieveByDateM(String date){
         String sql = " SELECT * FROM " + DatabaseHelper.MEMO_TABLE + " WHERE " + DatabaseHelper.MEMO_DAY + " = " + "'" + date + "'";
+        return db.rawQuery(sql, null);
+    }
+
+    //収支のデータを月ごと出力
+    public Cursor retrieveDataAll(String data){
+        String sql = " SELECT * FROM " + DatabaseHelper.SPENDING_TABLE + " WHERE " + DatabaseHelper.SPENDING_DAY + " = " + "'" + data + "'";
         return db.rawQuery(sql, null);
     }
 }

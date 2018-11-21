@@ -2,10 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/alldata_pg"
     android:orientation="vertical">
 
+    <!--<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="All Data SHOW"/>-->
+
     <TextView
-        android:id="@+id/alldata_text"
+        android:id="@+id/alldata_text_spending"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/alldata_text_income"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

@@ -18,6 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+//メモ一覧
+
 public class MemoFragment extends BaseFragment {
 
     private static final String TAG = MemoFragment.class.getSimpleName();
