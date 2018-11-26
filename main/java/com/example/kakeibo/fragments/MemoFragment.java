@@ -14,6 +14,10 @@ import com.example.kakeibo.R;
 import com.example.kakeibo.database.DatabaseManager;
 import com.example.kakeibo.utils.LogUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -40,6 +44,8 @@ public class MemoFragment extends BaseFragment {
 
     private DatabaseManager mDatabase; //データベースクラス
     private String day;                //日付
+    private String mm;
+    private String dd;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
@@ -75,16 +81,18 @@ public class MemoFragment extends BaseFragment {
 
     private void addMemo(){
         String memo = editText.getText().toString();
+        mm = new SimpleDateFormat("MM月", Locale.getDefault()).format(new Date(day));
+        dd = new SimpleDateFormat("dd日", Locale.getDefault()).format(new Date(day));
         LogUtil.debug("addMemo", "memoは" + memo);
         LogUtil.debug("addMemo", "日付は" + day);
         //データベースに書き込み
-        mDatabase.addMemo(memo, day);
+        mDatabase.addMemo(memo, mm, dd);
     }
 
     //入力したデータベースの出力
     @OnClick(R.id.memo_show)
     void onAddClick() {
-        Cursor cursor = mDatabase.retrieveByDateM(day);
+        Cursor cursor = mDatabase.retrieveByDateM(mm,dd);
         StringBuilder builder = new StringBuilder();
         if(cursor.moveToFirst()) {
             do {

@@ -69,13 +69,18 @@ public class KakeiboFragment extends BaseFragment {
         Bundle bundle = getArguments();
         day = bundle.getString("data");
         data = new SimpleDateFormat("MM月dd日", Locale.getDefault()).format(new Date(day));
+        String mm = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date(day));
+        String dd = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date(day));
         textDay.setText(data);
+        LogUtil.debug("KakeiboFragment", "日付は"+ day);
         LogUtil.debug("KakeiboFragment", "日付は"+ data);
+        LogUtil.debug("KakeiboFragment", "日付は"+ mm);
+        LogUtil.debug("KakeiboFragment", "日付は"+ dd);
 
         mDatabase = DatabaseManager.getInstance(getActivity());
 
         //支出データ呼び出し
-        Cursor cursor = mDatabase.retrieveByDate(data);
+        Cursor cursor = mDatabase.retrieveByDate(mm, dd);
         StringBuilder text = new StringBuilder();
         if (cursor.moveToFirst()) {
             do {
@@ -86,7 +91,7 @@ public class KakeiboFragment extends BaseFragment {
         textView.setText(text);
 
         //収入データ呼び出し
-        Cursor iCursor = mDatabase.retrieveByDateI(data);
+        Cursor iCursor = mDatabase.retrieveByDateI(mm, dd);
         StringBuilder incomeText = new StringBuilder();
         if (iCursor.moveToFirst()) {
             do {
@@ -97,7 +102,7 @@ public class KakeiboFragment extends BaseFragment {
         textView2.setText(incomeText);
 
         //メモデータ呼び出し
-        Cursor mCursor = mDatabase.retrieveByDateM(data);
+        Cursor mCursor = mDatabase.retrieveByDateM(mm, dd);
         StringBuilder memoText = new StringBuilder();
         if (mCursor.moveToFirst()) {
             do {

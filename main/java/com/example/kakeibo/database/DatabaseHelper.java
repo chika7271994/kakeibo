@@ -23,43 +23,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String SPENDING_ID = "s_id";
     public static final String SPENDING_CATEGORY = "s_category";
     public static final String SPENDING_PRICE = "s_price";
-    public static final String SPENDING_DAY = "s_day";
+    public static final String SPENDING_MONTH = "s_month";
+    public static final String SPENDING_DAYS = "s_days";
 
     //収入カラム
     public static final String INCOME_ID = "i_id";
     public static final String INCOME_CATEGORY = "i_category";
     public static final String INCOME_PRICE = "i_price";
-    public static final String INCOME_DAY = "i_day";
+    public static final String INCOME_MONTH = "i_month";
+    public static final String INCOME_DAYS = "i_days";
 
     //メモカラム
     public static final String MEMO_ID = "m_id";
     public static final String MEMO_DATA = "memo";
-    public static final String MEMO_DAY = "m_day";
+    public static final String MEMO_MONTH = "m_month";
+    public static final String MEMO_DAYS = "m_days";
 
     //支出テーブル作成
     private static final String SQL_CREATE_SPENDING = " CREATE TABLE IF NOT EXISTS " + SPENDING_TABLE +
             " ( " +
-            SPENDING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            SPENDING_ID       + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             SPENDING_CATEGORY + " TEXT NOT NULL, " +
-            SPENDING_PRICE + " INTEGER NOT NULL, " +
-            SPENDING_DAY + " TEXT" +
+            SPENDING_PRICE    + " INTEGER NOT NULL, " +
+            SPENDING_MONTH    + " TEXT," +
+            SPENDING_DAYS     + " TEXT" +
             " ) ";
 
     //収入テーブル作成
     private static final String SQL_CREATE_INCOME = " CREATE TABLE IF NOT EXISTS " + INCOME_TABLE +
             " ( " +
-            INCOME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            INCOME_ID       + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             INCOME_CATEGORY + " TEXT NOT NULL, " +
-            INCOME_PRICE + " INTEGER NOT NULL, " +
-            INCOME_DAY + " TEXT" +
+            INCOME_PRICE    + " INTEGER NOT NULL, " +
+            INCOME_MONTH    + " TEXT," +
+            INCOME_DAYS     + " TEXT" +
             " ) ";
 
     //メモテーブル作成
     private static final String SQL_CREATE_MEMO = " CREATE TABLE IF NOT EXISTS " + MEMO_TABLE +
             " ( " +
-            MEMO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            MEMO_DATA + " TEXT, " +
-            MEMO_DAY + " TEXT " +
+            MEMO_ID    + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            MEMO_DATA  + " TEXT, " +
+            MEMO_MONTH + " TEXT, " +
+            MEMO_DAYS  + " TEXT" +
             " ) ";
 
     DatabaseHelper(Context context) { super(context, DATABASE_NAME, null, DATABASE_VERSION); }

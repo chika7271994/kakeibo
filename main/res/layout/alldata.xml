@@ -5,10 +5,10 @@
     android:id="@+id/alldata_pg"
     android:orientation="vertical">
 
-    <!--<TextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="All Data SHOW"/>-->
+        android:text="All Data SHOW"/>
 
     <TextView
         android:id="@+id/alldata_text_spending"

@@ -15,7 +15,7 @@ public class BaseFragment extends Fragment {
             return;
         }
 
-        final KakeiboListActivity activity = obtainKakeiboListActivity();
+        final KakeiboListActivity activity = obtainBaseActivity();
         if (activity == null) {
             return;
         }

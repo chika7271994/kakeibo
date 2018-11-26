@@ -1,3 +1,4 @@
+/*
 package com.example.kakeibo.activities;
 
 import android.content.Intent;
@@ -46,4 +47,4 @@ public class KakeiboListActivity extends AppCompatActivity {
                 .replace(R.id.show_kakeibo_pg, fragment, bbb)
                 .commit();
     }
-}
+}*/

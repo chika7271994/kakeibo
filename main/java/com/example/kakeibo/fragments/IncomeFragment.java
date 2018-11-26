@@ -14,6 +14,10 @@ import com.example.kakeibo.R;
 import com.example.kakeibo.database.DatabaseManager;
 import com.example.kakeibo.utils.LogUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,6 +46,8 @@ public class IncomeFragment extends BaseFragment {
 
     private DatabaseManager mDatabase; //データベースクラス
     private String day;                //日付
+    private String mm;
+    private String dd;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
@@ -76,17 +82,19 @@ public class IncomeFragment extends BaseFragment {
         //データベースに書き込み
         String category = editText1.getText().toString();
         String price = editText2.getText().toString();
+        mm = new SimpleDateFormat("MM月", Locale.getDefault()).format(new Date(day));
+        dd = new SimpleDateFormat("dd日", Locale.getDefault()).format(new Date(day));
         int i = Integer.valueOf(price);
         LogUtil.debug("addIncome", "categoryは" + category);
         LogUtil.debug("addIncome", "priceは" + price);
         LogUtil.debug("addIncome", "日付は"+ day);
-        mDatabase.addIncome(category, i, day);
+        mDatabase.addIncome(category, i, mm, dd);
     }
 
     //入力したデータベースの出力
     @OnClick(R.id.income_show)
     void onAddClick() {
-        Cursor cursor = mDatabase.retrieveByDateI(day);
+        Cursor cursor = mDatabase.retrieveByDateI(mm, dd);
         StringBuilder builder = new StringBuilder();
         if(cursor.moveToFirst()) {
             do {

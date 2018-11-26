@@ -1,3 +1,4 @@
+/*
 package com.example.kakeibo.activities;
 
 import android.content.Intent;
@@ -88,3 +89,4 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
         startActivity(intent);
     }
 }
+*/

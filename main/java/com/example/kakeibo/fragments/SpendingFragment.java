@@ -16,6 +16,10 @@ import com.example.kakeibo.R;
 import com.example.kakeibo.database.DatabaseManager;
 import com.example.kakeibo.utils.LogUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
@@ -45,6 +49,8 @@ public class SpendingFragment extends BaseFragment {
 
     private DatabaseManager mDatabase; //データベースクラス
     private String day;                //日付
+    private String mm;
+    private String dd;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
@@ -88,18 +94,20 @@ public class SpendingFragment extends BaseFragment {
     private void addData(){
         String category = editText1.getText().toString();
         String price = editText2.getText().toString();
+        mm = new SimpleDateFormat("MM月", Locale.getDefault()).format(new Date(day));
+        dd = new SimpleDateFormat("dd日", Locale.getDefault()).format(new Date(day));
         int i = Integer.valueOf(price);
         LogUtil.debug("addData", "categoryは" + category);
         LogUtil.debug("addData", "priceは" + price);
         LogUtil.debug("addData", "日付は"+ day);
         //データベースに書き込み
-        mDatabase.addSpending(category, i, day);
+        mDatabase.addSpending(category, i, mm, dd);
     }
 
     //入力したデータベースの出力
     @OnClick(R.id.syuusi_show)
     void onAddClick() {
-        Cursor cursor = mDatabase.retrieveByDate(day);
+        Cursor cursor = mDatabase.retrieveByDate(mm, dd);
         StringBuilder builder = new StringBuilder();
         if(cursor.moveToFirst()) {
             do {
