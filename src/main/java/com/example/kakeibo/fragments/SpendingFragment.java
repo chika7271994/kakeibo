@@ -7,7 +7,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.kakeibo.R;
@@ -20,16 +22,15 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-//メモ一覧
+public class SpendingFragment extends BaseFragment {
 
-public class MemoFragment extends BaseFragment {
+    private static final String TAG = SpendingFragment.class.getSimpleName();
 
-    private static final String TAG = MemoFragment.class.getSimpleName();
-
-    public static MemoFragment newInstance(String day) {
-        MemoFragment fragment = new MemoFragment();
+    public static SpendingFragment newInstance(String day) {
+        SpendingFragment fragment = new SpendingFragment();
         //値を受け取る
         Bundle bundle = new Bundle();
         bundle.putString("data", day);
@@ -37,16 +38,20 @@ public class MemoFragment extends BaseFragment {
         return fragment;
     }
 
-    @BindView(R.id.memo_Edittext)
-    EditText editText;
-    @BindView(R.id.textMemo)
+    @BindView(R.id.editText1)
+    EditText editText1;
+    @BindView(R.id.editText2)
+    EditText editText2;
+    @BindView(R.id.textSyuusi)
     TextView textView;
+    @BindView(R.id.syuusi_switch)
+    Switch aSwitch;
 
     private DatabaseManager mDatabase; //データベースクラス
-    private String day;  //日付
-    private String yy;
+    private String day;                //日付
     private String mm;
     private String dd;
+    private String yy;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
@@ -63,47 +68,62 @@ public class MemoFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //レイアウト作成
-        View view = inflater.inflate(R.layout.memo_page, container, false);
+        View view = inflater.inflate(R.layout.spending_page, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
 
-    @OnClick(R.id.memo_input)
+    @OnCheckedChanged(R.id.syuusi_switch)
+    void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked){
+            LogUtil.debug("スイッチ", "支出");
+        }else {
+            LogUtil.debug("スイッチ", "収入");
+            changeView();
+        }
+    }
+
+    void changeView(){
+        navigateToFragment(IncomeFragment.newInstance(day));
+    }
+
+    @OnClick(R.id.syuusi_input)
     void onClick() {
             LogUtil.debug(TAG, "onActivityCreated");
             mDatabase = DatabaseManager.getInstance(getActivity());
-            addMemo();
+            addData();
         }
 
-    private void addMemo(){
-        String memo = editText.getText().toString();
+    private void addData(){
+        String category = editText1.getText().toString();
+        String price = editText2.getText().toString();
         yy = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date(day));
         mm = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date(day));
         dd = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date(day));
-        LogUtil.debug("addMemo", "memoは" + memo);
-        LogUtil.debug("addMemo", "日付は"+ yy);
-        LogUtil.debug("addMemo", "日付は"+ mm);
-        LogUtil.debug("addMemo", "日付は"+ dd);
+        int i = Integer.valueOf(price);
         int year = Integer.valueOf(yy);
         int month = Integer.valueOf(mm);
         int days = Integer.valueOf(dd);
+        LogUtil.debug("addData", "categoryは" + category);
+        LogUtil.debug("addData", "priceは" + price);
+        LogUtil.debug("addData", "日付は"+ yy);
+        LogUtil.debug("addData", "日付は"+ mm);
+        LogUtil.debug("addData", "日付は"+ dd);
         //データベースに書き込み
-        mDatabase.addMemo(memo, year, month, days);
+        mDatabase.addSpending(category, i, year, month, days);
     }
 
     //入力したデータベースの出力
-    @OnClick(R.id.memo_show)
+    @OnClick(R.id.syuusi_show)
     void onAddClick() {
-        Cursor cursor = mDatabase.retrieveByDateM(yy,mm,dd);
+        Cursor cursor = mDatabase.retrieveByDate(yy,mm,dd);
         StringBuilder builder = new StringBuilder();
         if(cursor.moveToFirst()) {
             do {
-                builder.append(cursor.getString(1) + "\n");
+                builder.append(cursor.getString(1) + " ");
+                builder.append(cursor.getInt(2) + "\n");
             } while (cursor.moveToNext());
         }
         textView.setText(builder.toString());
