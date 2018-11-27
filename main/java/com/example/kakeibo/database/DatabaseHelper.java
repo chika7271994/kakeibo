@@ -23,6 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String SPENDING_ID = "s_id";
     public static final String SPENDING_CATEGORY = "s_category";
     public static final String SPENDING_PRICE = "s_price";
+    public static final String SPENDING_YEAR = "s_year";
     public static final String SPENDING_MONTH = "s_month";
     public static final String SPENDING_DAYS = "s_days";
 
@@ -30,12 +31,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String INCOME_ID = "i_id";
     public static final String INCOME_CATEGORY = "i_category";
     public static final String INCOME_PRICE = "i_price";
+    public static final String INCOME_YEAR = "i_year";
     public static final String INCOME_MONTH = "i_month";
     public static final String INCOME_DAYS = "i_days";
 
     //メモカラム
     public static final String MEMO_ID = "m_id";
     public static final String MEMO_DATA = "memo";
+    public static final String MEMO_YEAR = "m_year";
     public static final String MEMO_MONTH = "m_month";
     public static final String MEMO_DAYS = "m_days";
 
@@ -45,8 +48,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SPENDING_ID       + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             SPENDING_CATEGORY + " TEXT NOT NULL, " +
             SPENDING_PRICE    + " INTEGER NOT NULL, " +
-            SPENDING_MONTH    + " TEXT," +
-            SPENDING_DAYS     + " TEXT" +
+            SPENDING_YEAR     + " INTEGER NOT NULL, " +
+            SPENDING_MONTH    + " INTEGER NOT NULL, " +
+            SPENDING_DAYS     + " INTEGER NOT NULL " +
             " ) ";
 
     //収入テーブル作成
@@ -55,8 +59,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             INCOME_ID       + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             INCOME_CATEGORY + " TEXT NOT NULL, " +
             INCOME_PRICE    + " INTEGER NOT NULL, " +
-            INCOME_MONTH    + " TEXT," +
-            INCOME_DAYS     + " TEXT" +
+            INCOME_YEAR     + " INTEGER NOT NULL, " +
+            INCOME_MONTH    + " INTEGER NOT NULL, " +
+            INCOME_DAYS     + " INTEGER NOT NULL " +
             " ) ";
 
     //メモテーブル作成
@@ -64,6 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             " ( " +
             MEMO_ID    + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             MEMO_DATA  + " TEXT, " +
+            MEMO_YEAR  + " TEXT, " +
             MEMO_MONTH + " TEXT, " +
             MEMO_DAYS  + " TEXT" +
             " ) ";

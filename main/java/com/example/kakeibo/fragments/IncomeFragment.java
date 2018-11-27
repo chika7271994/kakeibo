@@ -45,7 +45,8 @@ public class IncomeFragment extends BaseFragment {
     TextView textView;
 
     private DatabaseManager mDatabase; //データベースクラス
-    private String day;                //日付
+    private String day; //日付
+    private String yy;
     private String mm;
     private String dd;
 
@@ -82,19 +83,27 @@ public class IncomeFragment extends BaseFragment {
         //データベースに書き込み
         String category = editText1.getText().toString();
         String price = editText2.getText().toString();
-        mm = new SimpleDateFormat("MM月", Locale.getDefault()).format(new Date(day));
-        dd = new SimpleDateFormat("dd日", Locale.getDefault()).format(new Date(day));
+        yy = day.substring(0, 4);
+        mm = day.substring(5, 7);
+        dd = day.substring(8, 10);
         int i = Integer.valueOf(price);
+        int year = Integer.valueOf(yy);
+        int month = Integer.valueOf(mm);
+        int days = Integer.valueOf(dd);
         LogUtil.debug("addIncome", "categoryは" + category);
         LogUtil.debug("addIncome", "priceは" + price);
-        LogUtil.debug("addIncome", "日付は"+ day);
-        mDatabase.addIncome(category, i, mm, dd);
+        LogUtil.debug("addIncome", "dayは"+ day);
+        LogUtil.debug("addIncome", "yyは"+ yy);
+        LogUtil.debug("addIncome", "mmは"+ mm);
+        LogUtil.debug("addIncome", "ddは"+ dd);
+        //データベースに書き込み
+        mDatabase.addIncome(category, i, year, month, days);
     }
 
     //入力したデータベースの出力
     @OnClick(R.id.income_show)
     void onAddClick() {
-        Cursor cursor = mDatabase.retrieveByDateI(mm, dd);
+        Cursor cursor = mDatabase.retrieveByDateI(yy,mm,dd);
         StringBuilder builder = new StringBuilder();
         if(cursor.moveToFirst()) {
             do {
@@ -105,7 +114,7 @@ public class IncomeFragment extends BaseFragment {
         textView.setText(builder.toString());
     }
 
-    //支出ページに戻る
+    //SpendingFragmentページに戻る
     @OnClick(R.id.income_back)
     void btnBackClick(){
         navigateToFragment(SpendingFragment.newInstance(day));

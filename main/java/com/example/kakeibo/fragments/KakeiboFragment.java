@@ -46,6 +46,9 @@ public class KakeiboFragment extends BaseFragment {
     private DatabaseManager mDatabase; //データベースクラス
     private String day;        //日付
     private String data;       //日付表示形式変更後
+    private String yy;
+    private String mm;
+    private String dd;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,19 +71,20 @@ public class KakeiboFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
         day = bundle.getString("data");
-        data = new SimpleDateFormat("MM月dd日", Locale.getDefault()).format(new Date(day));
-        String mm = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date(day));
-        String dd = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date(day));
+        data = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault()).format(new Date(day));
+        yy = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date(day));
+        mm = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date(day));
+        dd = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date(day));
         textDay.setText(data);
-        LogUtil.debug("KakeiboFragment", "日付は"+ day);
-        LogUtil.debug("KakeiboFragment", "日付は"+ data);
-        LogUtil.debug("KakeiboFragment", "日付は"+ mm);
-        LogUtil.debug("KakeiboFragment", "日付は"+ dd);
+        LogUtil.debug("KakeiboFragment", "data日付は"+ data);
+        LogUtil.debug("KakeiboFragment", "yy日付は"+ yy);
+        LogUtil.debug("KakeiboFragment", "mm日付は"+ mm);
+        LogUtil.debug("KakeiboFragment", "dd日付は"+ dd);
 
         mDatabase = DatabaseManager.getInstance(getActivity());
 
         //支出データ呼び出し
-        Cursor cursor = mDatabase.retrieveByDate(mm, dd);
+        Cursor cursor = mDatabase.retrieveByDate(yy, mm, dd);
         StringBuilder text = new StringBuilder();
         if (cursor.moveToFirst()) {
             do {
@@ -91,7 +95,7 @@ public class KakeiboFragment extends BaseFragment {
         textView.setText(text);
 
         //収入データ呼び出し
-        Cursor iCursor = mDatabase.retrieveByDateI(mm, dd);
+        Cursor iCursor = mDatabase.retrieveByDateI(yy, mm, dd);
         StringBuilder incomeText = new StringBuilder();
         if (iCursor.moveToFirst()) {
             do {
@@ -102,23 +106,36 @@ public class KakeiboFragment extends BaseFragment {
         textView2.setText(incomeText);
 
         //メモデータ呼び出し
-        Cursor mCursor = mDatabase.retrieveByDateM(mm, dd);
+        Cursor mCursor = mDatabase.retrieveByDateM(yy, mm, dd);
         StringBuilder memoText = new StringBuilder();
         if (mCursor.moveToFirst()) {
             do {
-                memoText.append(mCursor.getString(1) + " \n");
+                memoText.append(mCursor.getString(1) + " ");
+                memoText.append("\n");
             } while (mCursor.moveToNext());
         }
         textView3.setText(memoText);
     }
 
-    //収支入力ページ移行
+    //SpendingFragment移行
     @OnClick(R.id.syuusi)
     void btnSyuusiClick(){
         navigateToFragment(SpendingFragment.newInstance(data));
     }
 
-    //メモページ移行
+    //MemoFragment移行
     @OnClick(R.id.memo)
     void btnMemoClick() { navigateToFragment(MemoFragment.newInstance(data)); }
+
+    //CalendarFragment移行
+    @OnClick(R.id.index_back)
+    void btnCalendarClick() { navigateToFragment(CalendarFragment.newInstance()); }
+
+    //その日のデータ削除ボタン
+    @OnClick(R.id.delete)
+    void btnDeleteClick(){
+        Cursor dCursor = mDatabase.deleteData(yy, mm, dd);
+        dCursor.moveToFirst();
+    }
+
 }

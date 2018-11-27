@@ -43,7 +43,8 @@ public class MemoFragment extends BaseFragment {
     TextView textView;
 
     private DatabaseManager mDatabase; //データベースクラス
-    private String day;                //日付
+    private String day;  //日付
+    private String yy;
     private String mm;
     private String dd;
 
@@ -81,18 +82,24 @@ public class MemoFragment extends BaseFragment {
 
     private void addMemo(){
         String memo = editText.getText().toString();
-        mm = new SimpleDateFormat("MM月", Locale.getDefault()).format(new Date(day));
-        dd = new SimpleDateFormat("dd日", Locale.getDefault()).format(new Date(day));
+        yy = day.substring(0, 4);
+        mm = day.substring(5, 7);
+        dd = day.substring(8, 10);
         LogUtil.debug("addMemo", "memoは" + memo);
-        LogUtil.debug("addMemo", "日付は" + day);
+        LogUtil.debug("addMemo", "yyは"+ yy);
+        LogUtil.debug("addMemo", "mmは"+ mm);
+        LogUtil.debug("addMemo", "ddは"+ dd);
+        int year = Integer.valueOf(yy);
+        int month = Integer.valueOf(mm);
+        int days = Integer.valueOf(dd);
         //データベースに書き込み
-        mDatabase.addMemo(memo, mm, dd);
+        mDatabase.addMemo(memo, year, month, days);
     }
 
     //入力したデータベースの出力
     @OnClick(R.id.memo_show)
     void onAddClick() {
-        Cursor cursor = mDatabase.retrieveByDateM(mm,dd);
+        Cursor cursor = mDatabase.retrieveByDateM(yy,mm,dd);
         StringBuilder builder = new StringBuilder();
         if(cursor.moveToFirst()) {
             do {
@@ -100,5 +107,11 @@ public class MemoFragment extends BaseFragment {
             } while (cursor.moveToNext());
         }
         textView.setText(builder.toString());
+    }
+
+    //CalendarFragmentに戻る
+    @OnClick(R.id.memo_back)
+    void btnBackClick(){
+        navigateToFragment(CalendarFragment.newInstance());
     }
 }

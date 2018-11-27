@@ -51,6 +51,7 @@ public class SpendingFragment extends BaseFragment {
     private String day;                //日付
     private String mm;
     private String dd;
+    private String yy;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
@@ -84,6 +85,10 @@ public class SpendingFragment extends BaseFragment {
         }
     }
 
+    void changeView(){
+        navigateToFragment(IncomeFragment.newInstance(day));
+    }
+
     @OnClick(R.id.syuusi_input)
     void onClick() {
             LogUtil.debug(TAG, "onActivityCreated");
@@ -94,20 +99,27 @@ public class SpendingFragment extends BaseFragment {
     private void addData(){
         String category = editText1.getText().toString();
         String price = editText2.getText().toString();
-        mm = new SimpleDateFormat("MM月", Locale.getDefault()).format(new Date(day));
-        dd = new SimpleDateFormat("dd日", Locale.getDefault()).format(new Date(day));
+        yy = day.substring(0, 4);
+        mm = day.substring(5, 7);
+        dd = day.substring(8, 10);
         int i = Integer.valueOf(price);
+        int year = Integer.valueOf(yy);
+        int month = Integer.valueOf(mm);
+        int days = Integer.valueOf(dd);
         LogUtil.debug("addData", "categoryは" + category);
         LogUtil.debug("addData", "priceは" + price);
-        LogUtil.debug("addData", "日付は"+ day);
+        LogUtil.debug("addData", "dayは"+ day);
+        LogUtil.debug("addData", "yyは"+ yy);
+        LogUtil.debug("addData", "mmは"+ mm);
+        LogUtil.debug("addData", "ddは"+ dd);
         //データベースに書き込み
-        mDatabase.addSpending(category, i, mm, dd);
+        mDatabase.addSpending(category, i, year, month, days);
     }
 
     //入力したデータベースの出力
     @OnClick(R.id.syuusi_show)
     void onAddClick() {
-        Cursor cursor = mDatabase.retrieveByDate(mm, dd);
+        Cursor cursor = mDatabase.retrieveByDate(yy,mm,dd);
         StringBuilder builder = new StringBuilder();
         if(cursor.moveToFirst()) {
             do {
@@ -118,7 +130,9 @@ public class SpendingFragment extends BaseFragment {
         textView.setText(builder.toString());
     }
 
-    void changeView(){
-        navigateToFragment(IncomeFragment.newInstance(day));
+    //CalendarFragmentに戻る
+    @OnClick(R.id.spending_back)
+    void btnBackClick(){
+        navigateToFragment(CalendarFragment.newInstance());
     }
 }
