@@ -12,8 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kakeibo.R;
-import com.example.kakeibo.database.Database;
-import com.example.kakeibo.database.TestOpenHelper;
 import com.example.kakeibo.utils.LogUtil;
 
 import butterknife.BindView;

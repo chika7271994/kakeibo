@@ -2,12 +2,12 @@ package com.example.kakeibo.fragments;
 
 import android.support.v4.app.Fragment;
 
-import com.example.kakeibo.activities.BaseActivity;
+import com.example.kakeibo.activities.KakeiboListActivity;
 
 public class BaseFragment extends Fragment {
 
-    public BaseActivity obtainBaseActivity(){
-        return (BaseActivity) getActivity();
+    public KakeiboListActivity obtainKakeiboListActivity(){ //baseActivity
+        return (KakeiboListActivity) getActivity();
     }
 
     public void navigateToFragment(BaseFragment fragment) {
@@ -15,7 +15,7 @@ public class BaseFragment extends Fragment {
             return;
         }
 
-        final BaseActivity activity = obtainBaseActivity();
+        final KakeiboListActivity activity = obtainBaseActivity();
         if (activity == null) {
             return;
         }

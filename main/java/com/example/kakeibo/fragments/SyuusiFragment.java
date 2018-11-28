@@ -1,6 +1,8 @@
 package com.example.kakeibo.fragments;
 
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kakeibo.R;
-import com.example.kakeibo.database.Database;
 import com.example.kakeibo.utils.LogUtil;
 
 import butterknife.BindView;
@@ -21,17 +22,9 @@ import butterknife.OnClick;
 //InputFragmentとする
 
 public class SyuusiFragment extends BaseFragment {
-
     private static final String TAG = SyuusiFragment.class.getSimpleName();
 
-    public static SyuusiFragment newInstance(String day) {
-        SyuusiFragment fragment = new SyuusiFragment();
-        //値を受け取る
-        Bundle bundle = new Bundle();
-        bundle.putString("data", day);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+    public static SyuusiFragment newInstance() { return  new  SyuusiFragment(); }
 
     @BindView(R.id.editText1)
     EditText editText1;
@@ -39,24 +32,13 @@ public class SyuusiFragment extends BaseFragment {
     EditText editText2;
     @BindView(R.id.textSyuusi)
     TextView textView;
-    @BindView(R.id.syuusi_text)
-    TextView textView2;
 
-    private Database mDatabase; //データベースクラス
-    private String day;         //日付
+    private Database database;
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState){
-        super.onActivityCreated(savedInstanceState);
-        //日付の値を取得
-        Bundle bundle = getArguments();
-        day = bundle.getString("data");
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    /*@Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+    }*/
 
     @Nullable
     @Override
@@ -64,42 +46,42 @@ public class SyuusiFragment extends BaseFragment {
             @NonNull LayoutInflater inflater,
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
-        //レイアウト作成
         View view = inflater.inflate(R.layout.syuusi_page, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
 
-    @OnClick(R.id.syuusi_input)
-    void onClick() {
-            LogUtil.debug(TAG, "onActivityCreated");
-            mDatabase = Database.getInstance(getActivity());
-            addData();
-        }
-
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        LogUtil.debug(TAG, "onActivityCreated");
+        database = Database.getInstance(getActivity());
+        addData();
+    }
 
     private void addData(){
         String category = editText1.getText().toString();
         String price = editText2.getText().toString();
-        int i = Integer.valueOf(price);
-        LogUtil.debug("addData", "categoryは" + category);
-        LogUtil.debug("addData", "priceは" + price);
-        LogUtil.debug("addData", "日付は"+ day);
-        //データベースに書き込み
-        mDatabase.addEntry(category, i, day);
+        int i = 0;
+        try{
+            i = Integer.valueOf(price);
+        }catch (Exception e){
+            LogUtil.debug("addData", "price の中身は" + price);
+        }
+        database.addEntry(category,i);
+        //database.addEntry("食材", 200);
     }
 
-    //入力したデータベースの出力
-    @OnClick(R.id.syuusi_show)
+    @OnClick(R.id.syuusi_input)
     void onAddClick() {
-        Cursor cursor = mDatabase.retrieveByDate(day);
+        Cursor cursor = database.retrieveAllEntries();
         StringBuilder builder = new StringBuilder();
-        if(cursor.moveToFirst()) {
+        if(cursor.moveToFirst()){
             do {
                 builder.append(cursor.getString(1) + " ");
                 builder.append(cursor.getInt(2) + "\n");
-            } while (cursor.moveToNext());
+            }while (cursor.moveToNext());
         }
-        textView.setText(builder.toString());
+        textView.setText(builder);
     }
 }
