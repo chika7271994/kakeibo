@@ -1,3 +1,4 @@
+/*
 package com.example.kakeibo.activities;
 
 import android.content.Intent;
@@ -8,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.kakeibo.R;
 import com.example.kakeibo.fragments.KakeiboFragment;
 
-//ベース
+//BaseActivityとする
 
 public class KakeiboListActivity extends AppCompatActivity {
 
@@ -23,7 +24,7 @@ public class KakeiboListActivity extends AppCompatActivity {
         currentDate = intent.getStringExtra("date");
 
         //フラグメントを表示
-        addFragment(KakeiboFragment.newInstance());
+        addFragment(KakeiboFragment.newInstance(currentDate));
     }
 
     public void addFragment(Fragment fragment){
@@ -46,4 +47,4 @@ public class KakeiboListActivity extends AppCompatActivity {
                 .replace(R.id.show_kakeibo_pg, fragment, bbb)
                 .commit();
     }
-}
+}*/

@@ -1,13 +1,17 @@
 package com.example.kakeibo.fragments;
 
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.AdapterView;
 
-import com.example.kakeibo.activities.KakeiboListActivity;
+import com.example.kakeibo.activities.BaseActivity;
 
-public class BaseFragment extends Fragment {
+import butterknife.OnItemClick;
 
-    public KakeiboListActivity obtainKakeiboListActivity(){ //baseActivity
-        return (KakeiboListActivity) getActivity();
+public abstract class BaseFragment extends Fragment {
+
+    public BaseActivity obtainBaseActivity(){
+        return (BaseActivity) getActivity();
     }
 
     public void navigateToFragment(BaseFragment fragment) {
@@ -15,11 +19,12 @@ public class BaseFragment extends Fragment {
             return;
         }
 
-        final KakeiboListActivity activity = obtainBaseActivity();
+        final BaseActivity activity = obtainBaseActivity();
         if (activity == null) {
             return;
         }
 
         activity.replaceFragment(fragment);
     }
+
 }

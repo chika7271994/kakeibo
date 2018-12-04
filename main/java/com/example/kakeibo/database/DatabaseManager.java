@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.ScrollView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DatabaseManager {
 
     private static DatabaseManager databaseManager;
@@ -65,31 +68,16 @@ public class DatabaseManager {
      *  ここからDBから読み込み
      */
 
-    //  支出全データベースの読み込み
-    public Cursor retrieveAllEntries() {
-        return db.rawQuery("SELECT * FROM " + DatabaseHelper.SPENDING_TABLE, null);
-    }
-
     //支出日付毎のデータベースの読み込み用
     public Cursor retrieveByDate(String year, String month, String days) {
         String sql = "SELECT * FROM " +  DatabaseHelper.SPENDING_TABLE + " WHERE " + DatabaseHelper.SPENDING_YEAR + "=" + year + " AND " + DatabaseHelper.SPENDING_MONTH + "=" + month + " AND " + DatabaseHelper.SPENDING_DAYS + "=" + days;
         return db.rawQuery(sql, null);
     }
 
-    //収入全データベースの読み込み
-    public Cursor retriveAllIncome(){
-        return db.rawQuery("SELECT * FROM " + DatabaseHelper.INCOME_TABLE, null);
-    }
-
     //収入日付毎のデータベースの読み込み
     public Cursor retrieveByDateI(String year, String month, String days){
         String sql = " SELECT * FROM " + DatabaseHelper.INCOME_TABLE + " WHERE " + DatabaseHelper.INCOME_YEAR + "=" + year + " AND " + DatabaseHelper.INCOME_MONTH + "=" + month + " AND " + DatabaseHelper.INCOME_DAYS + "=" + days;
         return db.rawQuery(sql, null);
-    }
-
-    //メモ全データベースの読み込み
-    public Cursor retriveAllmemo(){
-        return db.rawQuery(" SELECT * FROM " + DatabaseHelper.MEMO_TABLE, null);
     }
 
     //メモ日付毎のデータベースの読み込み
@@ -127,14 +115,19 @@ public class DatabaseManager {
     }
 
     /**
-     *  削除用レコード
+     *  削除用コード
      */
 
-    public Cursor deleteData(String year, String month, String days){
-        String sql = " DELETE " +  DatabaseHelper.SPENDING_TABLE + " , " + DatabaseHelper.INCOME_TABLE + " FROM " + DatabaseHelper.SPENDING_TABLE + " LEFT JOIN " +
-                DatabaseHelper.INCOME_TABLE + " ON " + DatabaseHelper.SPENDING_YEAR + "=" + DatabaseHelper.INCOME_YEAR + " AND " +
-                DatabaseHelper.SPENDING_MONTH + "=" + DatabaseHelper.INCOME_MONTH + " AND " + DatabaseHelper.SPENDING_DAYS + "=" + DatabaseHelper.INCOME_DAYS +
-                " WHERE " + DatabaseHelper.SPENDING_YEAR + "=" + year + " AND " + DatabaseHelper.SPENDING_MONTH + "=" + month + " AND " + DatabaseHelper.SPENDING_DAYS + "=" + days;
+    //支出レコード削除
+    public Cursor spendingData(int id){
+        String sql = " DELETE FROM " + DatabaseHelper.SPENDING_TABLE + " WHERE " + DatabaseHelper.SPENDING_ID + "=" + id;
         return db.rawQuery(sql, null);
     }
+
+    //収入レコード削除
+    public Cursor incomeData(int id){
+        String sql = " DELETE FROM " + DatabaseHelper.INCOME_TABLE + " WHERE " + DatabaseHelper.INCOME_ID + "=" + id;
+        return db.rawQuery(sql, null);
+    }
+
 }

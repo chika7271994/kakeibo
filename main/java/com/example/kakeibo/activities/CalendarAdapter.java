@@ -70,7 +70,7 @@ public class CalendarAdapter extends BaseAdapter {
             convertView.setBackgroundColor(Color.LTGRAY);
         }
 
-        //当日は黄色に
+        //当日はマゼンタに
         if (dataManager.isToday(dateArray.get(position))){
             convertView.setBackgroundColor(Color.MAGENTA);
         }

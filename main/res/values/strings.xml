@@ -1,3 +1,55 @@
 <resources>
-    <string name="app_name">Kakeibo</string>
+    <string name="app_name">家計簿カレンダー</string>
+    <string name="toolbar_title">家計簿</string>
+
+    <!-- CalendarFragment -->
+    <string name="calendar_title">yyyy.MM</string>
+    <string name="calendar_next">NEXT</string>
+    <string name="calendar_prev">PREV</string>
+    <string name="sunday">日</string>
+    <string name="monday">月</string>
+    <string name="tuesday">火</string>
+    <string name="wednesday">水</string>
+    <string name="thursday">木</string>
+    <string name="friday">金</string>
+    <string name="saturday">土</string>
+
+    <!-- KakeiboFragment -->
+    <string name="data">yyyy.MM.dd</string>
+    <string name="spending">支出</string>
+    <string name="income">収入</string>
+    <string name="memo">メモ</string>
+    
+    <!-- SpendingFragment -->
+    <string name="swichi">収入・支出</string>
+    <string name="spending_input_botton">INPUT</string>
+    <string name="spending_show_botton">SHOW</string>
+    <string name="spending_input_error">%sを入力して下さい</string>
+    <string name="spending_back_button">戻る</string>
+
+    <!-- IncomeFragment -->
+    <string name="income_input_button">INPUT</string>
+    <string name="income_show_button">SHOW</string>
+    <string name="fragment_input_error">%sを入力して下さい</string>
+    <string name="income_back_button">戻る</string>
+
+    <!-- MemoFragment -->
+    <string name="memo_input_button">MEMO</string>
+    <string name="memo_show_button">SHOW</string>
+    <string name="memo_input_error">%sを入力して下さい</string>
+    <string name="memo_back_button">戻る</string>
+
+    <!-- AllDataFragment -->
+    <string name="spending_data">支出一覧</string>
+    <string name="spending_total_data">合計:</string>
+    <string name="spending_category">品目</string>
+    <string name="spending_price">金額</string>
+
+    <string name="income_data">収入一覧</string>
+    <string name="income_total_data">合計:</string>
+    <string name="income_category">品目</string>
+    <string name="income_price">金額</string>
+
+    <string name="all_data_back_button">戻る</string>
+
 </resources>

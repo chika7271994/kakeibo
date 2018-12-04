@@ -4,23 +4,22 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kakeibo.R;
 import com.example.kakeibo.database.DatabaseManager;
 import com.example.kakeibo.utils.LogUtil;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 
 //収入ページ
 
@@ -83,6 +82,11 @@ public class IncomeFragment extends BaseFragment {
         //データベースに書き込み
         String category = editText1.getText().toString();
         String price = editText2.getText().toString();
+
+        if (!inputError(category, price)){
+            return;
+        }
+
         yy = day.substring(0, 4);
         mm = day.substring(5, 7);
         dd = day.substring(8, 10);
@@ -90,14 +94,40 @@ public class IncomeFragment extends BaseFragment {
         int year = Integer.valueOf(yy);
         int month = Integer.valueOf(mm);
         int days = Integer.valueOf(dd);
-        LogUtil.debug("addIncome", "categoryは" + category);
-        LogUtil.debug("addIncome", "priceは" + price);
-        LogUtil.debug("addIncome", "dayは"+ day);
-        LogUtil.debug("addIncome", "yyは"+ yy);
-        LogUtil.debug("addIncome", "mmは"+ mm);
-        LogUtil.debug("addIncome", "ddは"+ dd);
-        //データベースに書き込み
+
         mDatabase.addIncome(category, i, year, month, days);
+
+        clearInputFields();
+    }
+
+    private boolean inputError(String category, String price){
+        if (TextUtils.isEmpty(category)){
+            showError("品目");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(price)){
+            showError("金額");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void showError(String type){
+        final View view = getView();
+        if (view == null || TextUtils.isEmpty(type)){
+            return;
+        }
+
+        final String message = String.format(getString(R.string.fragment_input_error), type);
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void clearInputFields(){
+        //EditTextの初期化
+        editText1.setText("");
+        editText2.setText("");
     }
 
     //入力したデータベースの出力
