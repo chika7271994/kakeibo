@@ -1,5 +1,6 @@
 package com.example.kakeibo.fragments;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.kakeibo.R;
+import com.example.kakeibo.activities.Camera;
 import com.example.kakeibo.database.DatabaseManager;
 import com.example.kakeibo.utils.LogUtil;
 
@@ -46,9 +48,9 @@ public class KakeiboFragment extends BaseFragment {
     private DatabaseManager mDatabase; //データベースクラス
     private String day;        //日付
     private String data;       //日付表示形式変更後
-    private String yy;
-    private String mm;
-    private String dd;
+    private String yy;         //年
+    private String mm;         //月
+    private String dd;         //日
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,5 +132,12 @@ public class KakeiboFragment extends BaseFragment {
     //CalendarFragment移行
     @OnClick(R.id.index_back)
     void btnCalendarClick() { navigateToFragment(CalendarFragment.newInstance()); }
+
+    //カメラボタン
+    @OnClick(R.id.camera_button)
+    void onClickCamera(){
+        Intent intent = new Intent(getActivity(), Camera.class);
+        startActivity(intent);
+    }
 
 }

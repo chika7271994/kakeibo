@@ -86,6 +86,11 @@ public class DatabaseManager {
         return db.rawQuery(sql, null);
     }
 
+    //メモ全体のデータ読み込み
+    public Cursor retreveAllMemoData(){
+        return db.rawQuery("SELECT * FROM " + DatabaseHelper.MEMO_TABLE, null);
+    }
+
     /**
      *   ここから収支の月毎の合計
      */

@@ -5,20 +5,13 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.example.kakeibo.Item.IncomeListItems;
@@ -26,21 +19,16 @@ import com.example.kakeibo.Item.SpendingListItems;
 import com.example.kakeibo.ListViewAdapter.ListViewAdapter;
 import com.example.kakeibo.ListViewAdapter.ListViewAdapter2;
 import com.example.kakeibo.R;
-import com.example.kakeibo.activities.BaseActivity;
 import com.example.kakeibo.database.DatabaseManager;
 import com.example.kakeibo.utils.LogUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
-
-import static com.example.kakeibo.BuildConfig.DEBUG;
 
 //ひと月ごとの全データ出力
 
@@ -93,11 +81,12 @@ public class AllDataFragment extends BaseFragment {
         LogUtil.debug("AlldataFragment", "mmは"+ mm);
         mDatabase = DatabaseManager.getInstance(getActivity());
         showData();
+        showIncomeData();
         getSpendingList();
         getIncomeList();
     }
 
-    private void showData(){
+    private void showData() {
 
         //支出合計データ呼び出し
         Cursor sCursor = mDatabase.sunSpendingData(yy, mm);
@@ -108,7 +97,9 @@ public class AllDataFragment extends BaseFragment {
             } while (sCursor.moveToNext());
         }
         spending_sun_text.setText(spendingText);
+    }
 
+    private void showIncomeData(){
 
         //収入合計データ呼び出し
         Cursor c = mDatabase.sunIncomeData(yy, mm);
@@ -202,6 +193,9 @@ public class AllDataFragment extends BaseFragment {
                 delete.moveToFirst();
                 objects.remove(position);
                 adapter.notifyDataSetChanged();
+
+                //支出合計データ更新
+                showData();
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -228,6 +222,9 @@ public class AllDataFragment extends BaseFragment {
                 delete.moveToFirst();
                 objects2.remove(position);
                 adapter2.notifyDataSetChanged();
+
+                //収入合計データ更新
+                showIncomeData();
             }
         });
         builder.setNegativeButton("Cancel", null);
