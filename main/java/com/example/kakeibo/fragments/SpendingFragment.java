@@ -1,6 +1,8 @@
 package com.example.kakeibo.fragments;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kakeibo.R;
+import com.example.kakeibo.activities.Camera;
 import com.example.kakeibo.database.DatabaseManager;
 import com.example.kakeibo.utils.LogUtil;
 
@@ -167,4 +170,13 @@ public class SpendingFragment extends BaseFragment {
     void btnBackClick(){
         navigateToFragment(CalendarFragment.newInstance());
     }
+
+    //カメラボタン
+    @OnClick(R.id.camera_button)
+    void onClickCamera(){
+        Intent intent = new Intent(getActivity(), Camera.class);
+        intent.putExtra("DayData", day);
+        startActivity(intent);
+    }
+
 }

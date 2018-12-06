@@ -18,6 +18,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String INCOME_TABLE = "income_table";
     //メモテーブル
     public static final String MEMO_TABLE = "memo_table";
+    //カメラテーブル
+    public static final String CAMERA_TABLE = "camera_table";
 
     //支出カラム
     public static final String SPENDING_ID = "s_id";
@@ -42,26 +44,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String MEMO_MONTH = "m_month";
     public static final String MEMO_DAYS = "m_days";
 
+    //カメラカラム
+    public static final String CAMERA_ID = "c_id";
+    public static final String CAMERA_NAME = "c_name";
+    public static final String CAMERA_IMAGE = "c_image";
+    public static final String CAMERA_YEAR = "c_year";
+    public static final String CAMERA_MONTH = "c_month";
+    public static final String CAMERA_DAYS = "c_days";
+
+
     //支出テーブル作成
     private static final String SQL_CREATE_SPENDING = " CREATE TABLE IF NOT EXISTS " + SPENDING_TABLE +
             " ( " +
             SPENDING_ID       + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            SPENDING_CATEGORY + " TEXT NOT NULL, " +
+            SPENDING_CATEGORY + " TEXT NOT NULL, "    +
             SPENDING_PRICE    + " INTEGER NOT NULL, " +
             SPENDING_YEAR     + " INTEGER NOT NULL, " +
             SPENDING_MONTH    + " INTEGER NOT NULL, " +
-            SPENDING_DAYS     + " INTEGER NOT NULL " +
+            SPENDING_DAYS     + " INTEGER NOT NULL "  +
             " ) ";
 
     //収入テーブル作成
     private static final String SQL_CREATE_INCOME = " CREATE TABLE IF NOT EXISTS " + INCOME_TABLE +
             " ( " +
             INCOME_ID       + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            INCOME_CATEGORY + " TEXT NOT NULL, " +
+            INCOME_CATEGORY + " TEXT NOT NULL, "    +
             INCOME_PRICE    + " INTEGER NOT NULL, " +
             INCOME_YEAR     + " INTEGER NOT NULL, " +
             INCOME_MONTH    + " INTEGER NOT NULL, " +
-            INCOME_DAYS     + " INTEGER NOT NULL " +
+            INCOME_DAYS     + " INTEGER NOT NULL "  +
             " ) ";
 
     //メモテーブル作成
@@ -71,7 +82,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             MEMO_DATA  + " TEXT, " +
             MEMO_YEAR  + " TEXT, " +
             MEMO_MONTH + " TEXT, " +
-            MEMO_DAYS  + " TEXT" +
+            MEMO_DAYS  + " TEXT"   +
+            " ) ";
+
+    //カメラテーブル作成
+    private static final String SQL_CREATE_CAMERA = " CREATE TABLE IF NOT EXISTS " + CAMERA_TABLE +
+            " ( " +
+            CAMERA_ID    + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            CAMERA_NAME  + " TEXT," +
+            CAMERA_IMAGE + " BLOB, " +
+            CAMERA_YEAR  + " TEXT, " +
+            CAMERA_MONTH + " TEXT, " +
+            CAMERA_DAYS  + " TEXT "  +
             " ) ";
 
     DatabaseHelper(Context context) { super(context, DATABASE_NAME, null, DATABASE_VERSION); }
@@ -82,6 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_SPENDING);
         db.execSQL(SQL_CREATE_INCOME);
         db.execSQL(SQL_CREATE_MEMO);
+        db.execSQL(SQL_CREATE_CAMERA);
     }
 
     @Override
@@ -90,6 +113,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SPENDING_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + INCOME_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + MEMO_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + CAMERA_TABLE);
 
         //アップデートしたテーブルを作成
         onCreate(db);

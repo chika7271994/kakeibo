@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.widget.ScrollView;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class DatabaseManager {
         final ContentValues values = new ContentValues();
         values.put(DatabaseHelper.SPENDING_CATEGORY, category);
         values.put(DatabaseHelper.SPENDING_PRICE, price);
+        //values.put(DatabaseHelper.SPENDING_CAMERA, String.valueOf(camera));
         values.put(DatabaseHelper.SPENDING_YEAR, year);
         values.put(DatabaseHelper.SPENDING_MONTH, month);
         values.put(DatabaseHelper.SPENDING_DAYS, days);
@@ -64,6 +66,17 @@ public class DatabaseManager {
         return db.insert(DatabaseHelper.MEMO_TABLE, null, mValues) != -1;
     }
 
+    //カメラデータ書き込み
+    public boolean addCamera(String name, byte[] image, int cYear, int cMonth, int cDays){
+        final ContentValues cValues = new ContentValues();
+        cValues.put(DatabaseHelper.CAMERA_NAME, name);
+        cValues.put(DatabaseHelper.CAMERA_IMAGE, image);
+        cValues.put(DatabaseHelper.CAMERA_YEAR, cYear);
+        cValues.put(DatabaseHelper.CAMERA_MONTH, cMonth);
+        cValues.put(DatabaseHelper.CAMERA_DAYS, cDays);
+        return db.insert(DatabaseHelper.CAMERA_TABLE, null, cValues) != -1;
+    }
+
     /**
      *  ここからDBから読み込み
      */
@@ -89,6 +102,11 @@ public class DatabaseManager {
     //メモ全体のデータ読み込み
     public Cursor retreveAllMemoData(){
         return db.rawQuery("SELECT * FROM " + DatabaseHelper.MEMO_TABLE, null);
+    }
+
+    //カメラデータ
+    public Cursor retriveCamera(){
+        return db.rawQuery("SELECT * FROM " + DatabaseHelper.CAMERA_TABLE, null);
     }
 
     /**

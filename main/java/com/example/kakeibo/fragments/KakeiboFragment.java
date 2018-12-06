@@ -133,11 +133,4 @@ public class KakeiboFragment extends BaseFragment {
     @OnClick(R.id.index_back)
     void btnCalendarClick() { navigateToFragment(CalendarFragment.newInstance()); }
 
-    //カメラボタン
-    @OnClick(R.id.camera_button)
-    void onClickCamera(){
-        Intent intent = new Intent(getActivity(), Camera.class);
-        startActivity(intent);
-    }
-
 }
