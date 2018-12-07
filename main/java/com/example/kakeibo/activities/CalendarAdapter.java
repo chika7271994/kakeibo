@@ -1,6 +1,5 @@
 package com.example.kakeibo.activities;
 
-import android.database.Cursor;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.content.Context;
@@ -11,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.kakeibo.R;
-import com.example.kakeibo.database.DatabaseManager;
+import com.example.kakeibo.activities.DataManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,18 +19,15 @@ import java.util.List;
 import java.util.Locale;
 
 public class CalendarAdapter extends BaseAdapter {
-
     private List<Date> dateArray = new ArrayList();
     private Context mContext;
     private DataManager dataManager;
     private LayoutInflater mLayoutInflater;
-    private SimpleDateFormat format;
-    private DatabaseManager mDatabase;
 
     //カスタムセルを拡張したらここでWigetを定義
     private static class ViewHolder {
         public TextView dateText;
-        //public ImageView imageView;  //メモが入っていたら✎マーク
+        //public TextView memo;
     }
 
     public CalendarAdapter(Context context){
@@ -53,7 +49,6 @@ public class CalendarAdapter extends BaseAdapter {
             convertView = mLayoutInflater.inflate(R.layout.cell, null);
             holder = new ViewHolder();
             holder.dateText = convertView.findViewById(R.id.dateText);
-            //holder.imageView = convertView.findViewById(R.id.image_data);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder)convertView.getTag();
@@ -75,7 +70,7 @@ public class CalendarAdapter extends BaseAdapter {
             convertView.setBackgroundColor(Color.LTGRAY);
         }
 
-        //当日はマゼンタに
+        //当日は黄色に
         if (dataManager.isToday(dateArray.get(position))){
             convertView.setBackgroundColor(Color.MAGENTA);
         }
@@ -96,15 +91,6 @@ public class CalendarAdapter extends BaseAdapter {
         }
         holder.dateText.setTextColor(colorId);
 
-        //------------------------------------
-        String dataText = getTitle();
-        String yy = dataText.substring(0, 4);
-        String mm = dataText.substring(5, 7);
-        /**
-         * メモが記入されている日付は✎マーク出力
-         */
-        //Cursor cursor = mDatabase.retrieveByDateM(yy, mm, dateFormat)
-
         return convertView;
     }
 
@@ -120,13 +106,9 @@ public class CalendarAdapter extends BaseAdapter {
 
     //表示月を取得
     public String getTitle(){
-        format = new SimpleDateFormat("yyyy.MM", Locale.US);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM", Locale.US);
         return format.format(dataManager.mCalendar.getTime());
     }
-
-//    public void setTitle(SimpleDateFormat format){
-//        this.format = format;
-//    }
 
     //翌月表示
     public void nextMonth(){
